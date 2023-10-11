@@ -6,4 +6,5 @@ export const Layout = styled.div`
   gap: ${p => p.theme.spacing(6)};
   padding: ${p => p.theme.spacing(4)};
   max-width: 1200px;
+  margin: 0 auto;
 `;
