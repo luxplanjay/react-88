@@ -1,15 +1,13 @@
-import { Component } from 'react';
+import { Component, useEffect, useState } from 'react';
 
-class App extends Component {
-  state = {
-    query: '',
-    page: 1,
-    images: [],
-    loading: false,
-    error: false,
-  };
+const App = () => {
+  const [query, setQuery] = useState('');
+  const [page, setPage] = useState(1);
+  const [images, setImages] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
 
-  handleSubmit = evt => {
+  const handleSubmit = evt => {
     evt.preventDefault();
 
     // Сохраняем термин поиска (query)
@@ -17,27 +15,25 @@ class App extends Component {
     // Очистить массив картинок
   };
 
-  handleLoadMore = () => {
-    this.setState(prevState => prevState.page + 1);
+  const handleLoadMore = () => {
+    setPage(prevState => prevState + 1);
   };
 
-  componentDidUpdate(prevProps, prevState) {
-    if (
-      prevState.query !== this.state.query ||
-      prevState.page !== this.state.page
-    ) {
-      // HTTP-запрос с setState
+  useEffect(() => {
+    if (query === '') {
+      return;
     }
-  }
 
-  render() {
-    return (
-      <div>
-        <form onSubmit={this.handleSubmit}>Search form</form>
-        {this.state.images.length > 0 && <div>GALLERY</div>}
-        {this.state.loading && <div>Loader...</div>}
-        <button onClick={this.handleLoadMore}>Load more</button>
-      </div>
-    );
-  }
-}
+    // HTTP-запрос
+    // axios.get(`http/${query}?page=${page}`);
+  }, [page, query]);
+
+  return (
+    <div>
+      <form onSubmit={handleSubmit}>Search form</form>
+      {images.length > 0 && <div>GALLERY</div>}
+      {loading && <div>Loader...</div>}
+      <button onClick={handleLoadMore}>Load more</button>
+    </div>
+  );
+};

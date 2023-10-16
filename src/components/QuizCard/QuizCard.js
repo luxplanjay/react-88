@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { HiTrash } from 'react-icons/hi';
 import Modal from 'react-modal';
 import {
@@ -7,7 +8,6 @@ import {
   Info,
   ActionBar,
 } from './QuizCard.styled';
-import { Component } from 'react';
 
 const customStyles = {
   content: {
@@ -22,52 +22,45 @@ const customStyles = {
 
 Modal.setAppElement('#root');
 
-export class QuizCard extends Component {
-  state = {
-    isModalOpen: false,
+export const QuizCard = ({
+  quiz: { id, topic, level, time, questions },
+  onDelete,
+}) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => {
+    setIsModalOpen(true);
   };
 
-  openModal = () => {
-    this.setState({ isModalOpen: true });
+  const closeModal = () => {
+    setIsModalOpen(false);
   };
 
-  closeModal = () => {
-    this.setState({ isModalOpen: false });
-  };
+  return (
+    <Container $level={level}>
+      <Topic>{topic}</Topic>
+      <InfoWrapper>
+        <Info>Level: {level}</Info>
+        <Info>Time: {time} min</Info>
+        <Info>Questions: {questions}</Info>
+      </InfoWrapper>
 
-  render() {
-    const { isModalOpen } = this.state;
-    const {
-      quiz: { id, topic, level, time, questions },
-      onDelete,
-    } = this.props;
+      <ActionBar>
+        <button onClick={() => onDelete(id)}>
+          <HiTrash />
+        </button>
+        <button onClick={openModal}>Open modal</button>
+      </ActionBar>
 
-    return (
-      <Container $level={level}>
-        <Topic>{topic}</Topic>
-        <InfoWrapper>
-          <Info>Level: {level}</Info>
-          <Info>Time: {time} min</Info>
-          <Info>Questions: {questions}</Info>
-        </InfoWrapper>
-
-        <ActionBar>
-          <button onClick={() => onDelete(id)}>
-            <HiTrash />
-          </button>
-          <button onClick={this.openModal}>Open modal</button>
-        </ActionBar>
-
-        <Modal
-          isOpen={isModalOpen}
-          onRequestClose={this.closeModal}
-          style={customStyles}
-          contentLabel="Example Modal"
-        >
-          <p>I'm a modal window - {topic}</p>
-          <button onClick={this.closeModal}>close</button>
-        </Modal>
-      </Container>
-    );
-  }
-}
+      <Modal
+        isOpen={isModalOpen}
+        onRequestClose={closeModal}
+        style={customStyles}
+        contentLabel="Example Modal"
+      >
+        <p>I'm a modal window - {topic}</p>
+        <button onClick={closeModal}>close</button>
+      </Modal>
+    </Container>
+  );
+};
