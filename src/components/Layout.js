@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 
-export const Layout = styled.div`
+export const Layout = styled.main`
   display: flex;
   flex-direction: column;
-  gap: ${p => p.theme.spacing(6)};
-  padding: ${p => p.theme.spacing(4)};
-  max-width: 1200px;
+  gap: 24px;
+  padding: 0 15px;
+  max-width: 900px;
   margin: 0 auto;
 `;
