@@ -1,9 +1,9 @@
 import { Layout } from './Layout';
-// import { RefExample } from './RefExample';
 // import { SkipMountEffect } from './SkipMountEffect';
+// import { RefExample } from './RefExample';
 // import { UseMemoExample } from './UseMemoExample';
 // import { HttpReqAbort } from './HttpReqAbort';
-// import { HttpReqAbortOnEvent } from './HttpReqAbortOnEvent';
+import { HttpReqAbortOnEvent } from './HttpReqAbortOnEvent';
 
 export const App = () => {
   return (
@@ -12,7 +12,7 @@ export const App = () => {
       {/* <RefExample /> */}
       {/* <UseMemoExample /> */}
       {/* <HttpReqAbort /> */}
-      {/* <HttpReqAbortOnEvent /> */}
+      <HttpReqAbortOnEvent />
     </Layout>
   );
 };
