@@ -8,6 +8,7 @@ import {
   Info,
   ActionBar,
 } from './QuizCard.styled';
+import { Link } from 'react-router-dom';
 
 const customStyles = {
   content: {
@@ -38,20 +39,20 @@ export const QuizCard = ({
 
   return (
     <Container $level={level}>
-      <Topic>{topic}</Topic>
+      <Link to={`/quizzes/${id}`}>
+        <Topic>{topic}</Topic>
+      </Link>
       <InfoWrapper>
         <Info>Level: {level}</Info>
         <Info>Time: {time} min</Info>
         <Info>Questions: {questions}</Info>
       </InfoWrapper>
-
       <ActionBar>
         <button onClick={() => onDelete(id)}>
           <HiTrash />
         </button>
         <button onClick={openModal}>Open modal</button>
       </ActionBar>
-
       <Modal
         isOpen={isModalOpen}
         onRequestClose={closeModal}

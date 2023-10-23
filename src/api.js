@@ -7,6 +7,11 @@ export const fetchQuizzes = async () => {
   return response.data;
 };
 
+export const fetchQuizById = async quizId => {
+  const response = await axios.get(`/quizzes/${quizId}`);
+  return response.data;
+};
+
 export const createQuiz = async quiz => {
   const response = await axios.post('/quizzes', quiz);
   return response.data;
