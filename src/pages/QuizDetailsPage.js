@@ -1,8 +1,10 @@
 import { fetchQuizById } from 'api';
+import { BackLink } from 'components/BackLink';
 import { useEffect, useState } from 'react';
-import { Outlet, useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 
 export default function QuizDetailsPage() {
+  const location = useLocation();
   const params = useParams();
   const [quiz, setQuiz] = useState();
 
@@ -20,14 +22,16 @@ export default function QuizDetailsPage() {
   return (
     <div>
       <h1>QuizDetailsPage</h1>
+      <BackLink to={location.state?.from ?? '/quizzes'}>
+        Back to quizzes
+      </BackLink>
+
       {quiz && (
         <>
           <p>{quiz.topic}</p>
           <p>{quiz.level}</p>
         </>
       )}
-
-      <Outlet />
     </div>
   );
 }

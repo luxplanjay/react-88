@@ -5,27 +5,13 @@ import { QuizList } from 'components/QuizList/QuizList';
 import { SearchBar } from 'components/SearchBar/SearchBar';
 import { ErrorMessage } from 'components/ErrorMessage';
 import { deleteQuizById, fetchQuizzes } from 'api';
-
-const getInitialFilters = () => {
-  const savedFilters = localStorage.getItem('quiz-filters');
-  if (savedFilters !== null) {
-    return JSON.parse(savedFilters);
-  }
-  return {
-    topic: '',
-    level: 'all',
-  };
-};
+import { useFilters } from 'hooks/useFilters';
 
 export default function QuizzesPage() {
   const [quizItems, setQuizItems] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
-  const [filters, setFilters] = useState(getInitialFilters);
-
-  useEffect(() => {
-    localStorage.setItem('quiz-filters', JSON.stringify(filters));
-  }, [filters]);
+  const { topic, level } = useFilters();
 
   useEffect(() => {
     async function getQuizzes() {
@@ -60,36 +46,21 @@ export default function QuizzesPage() {
     }
   };
 
-  const changeFilter = (key, value) => {
-    setFilters(prevState => ({
-      ...prevState,
-      [key]: value,
-    }));
-  };
-
-  const resetFilters = () => {
-    setFilters({ topic: '', level: 'all' });
-  };
-
   // Если topic содержится в topic квиза И если filter совпадает
   const visibleItems = quizItems.filter(quiz => {
-    const topicFilter = filters.topic.toLowerCase();
+    const topicFilter = topic.toLowerCase();
     const hasTopic = quiz.topic.toLowerCase().includes(topicFilter);
 
-    if (filters.level === 'all') {
+    if (level === 'all') {
       return hasTopic;
     }
 
-    return hasTopic && quiz.level === filters.level;
+    return hasTopic && quiz.level === level;
   });
 
   return (
     <div>
-      <SearchBar
-        filters={filters}
-        onChangeFilter={changeFilter}
-        onReset={resetFilters}
-      />
+      <SearchBar />
 
       {loading && (
         <Bars

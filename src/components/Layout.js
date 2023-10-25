@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import styled from 'styled-components';
 import { Toaster } from 'react-hot-toast';
 import { Outlet } from 'react-router-dom';
@@ -19,7 +20,9 @@ export const Layout = () => {
         <Navigation />
       </header>
 
-      <Outlet />
+      <Suspense fallback={'LOADING PAGE...'}>
+        <Outlet />
+      </Suspense>
 
       <Toaster position="top-right" />
     </Container>
